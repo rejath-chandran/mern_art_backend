@@ -1,10 +1,20 @@
 import user from "../model/user.js"
 import Jwt from "jsonwebtoken"
-export const UserLogin = async (req, res,next) => {
+export const UserLogin = async (req, res, next) => {
    try {
-      const { email, password } = req.body
-
-      const newuser = await user.findOne({ email: email })
+      const { email, password, type = "customer" } = req.body
+      let newuser
+      console.log(type)
+      if (type === "customer") {
+         newuser = await user.findOne({ email: email })
+      } else if (type === "seller") {
+         newuser = await user.findOne({ email: email, role: "seller" })
+      } else {
+         newuser = await user.findOne({ email: email, role: "admin" })
+      }
+      if (newuser == null) {
+         throw new Error("no user found")
+      }
       const isValid = await newuser.verify(password)
       if (isValid) {
          console.log(process.env.JWT_SECRET)
@@ -15,7 +25,7 @@ export const UserLogin = async (req, res,next) => {
                expiresIn: "24h",
             },
          )
-         return res.status(200).json({ status: true, Token })
+         return res.status(200).json({ status: true, type, Token })
       }
       res.status(401).json({ status: false })
    } catch (error) {
@@ -23,7 +33,7 @@ export const UserLogin = async (req, res,next) => {
    }
 }
 
-export const UserRegister = async (req, res,next) => {
+export const UserRegister = async (req, res, next) => {
    try {
       const { name, email, password } = req.body
       await user.create({
