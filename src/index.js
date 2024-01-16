@@ -6,6 +6,7 @@ import cors from "cors"
 import bodyParser from "body-parser"
 
 dotenv.config()
+
 const PORT = process.env.PORT
 const app = express()
 
