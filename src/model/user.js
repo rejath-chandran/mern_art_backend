@@ -12,9 +12,9 @@ const UserSchema = new mongoose.Schema({
       type: String,
       required: true,
    },
-   balance:{
-      type:Number,
-      default:0
+   balance: {
+      type: Number,
+      default: 0,
    },
    role: {
       type: String,

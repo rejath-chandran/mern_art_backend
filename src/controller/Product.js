@@ -13,6 +13,7 @@ export const GetAllProduct = async (req, res, next) => {
          desc: i.desc,
          category: i.category.name,
          artist: i.artist.name,
+         price:i?.price
       }))
       res.json(formattedItems)
    } catch (error) {
@@ -23,13 +24,14 @@ export const GetAllProduct = async (req, res, next) => {
 export const CreateProduct = async (req, res, next) => {
    try {
       const artist = req.auth.userId
-      const { name, desc, category, url: image } = req.body
+      const { name, desc, category, url: image,price } = req.body
       await Product.create({
          name,
          image,
          desc,
          category,
          artist,
+         price
       })
       res.status(201).json({ status: true })
    } catch (error) {
@@ -37,27 +39,26 @@ export const CreateProduct = async (req, res, next) => {
    }
 }
 
+export const GetProductByID = async (req, res, next) => {
+   try {
+      const { id } = req.params
 
-   export const GetProductByID= async (req, res, next) => {
-      try {
-         const { id } = req.params
-   
-         let item = await Product.findById(id).populate(["category", "artist"])
-         let formattedItems = {
-            _id: item._id?.toHexString(),
-            name: item?.name,
-            image: item?.image,
-            desc: item?.desc,
-            category: item?.category.name,
-            artist: item?.artist.name,
-            price: item?.price,
-         }
-   
-         res.status(200).json(formattedItems)
-      } catch (error) {
-         next(error)
+      let item = await Product.findById(id).populate(["category", "artist"])
+      let formattedItems = {
+         _id: item._id?.toHexString(),
+         name: item?.name,
+         image: item?.image,
+         desc: item?.desc,
+         category: item?.category.name,
+         artist: item?.artist.name,
+         price: item?.price,
       }
+
+      res.status(200).json(formattedItems)
+   } catch (error) {
+      next(error)
    }
+}
 export const UpdateProduct = async (req, res, next) => {
    try {
       const { url: image, name, desc, _id, category } = req.body
