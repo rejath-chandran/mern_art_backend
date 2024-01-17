@@ -21,8 +21,10 @@ import {
 import {
    CreateAuction,
    GetAllAuction,
+   GetAuctionbyID,
    PostAuction,
 } from "../controller/Auction.js"
+import { AllBidbyID, CreateBid } from "../controller/Bid.js"
 
 const router = Router()
 
@@ -51,8 +53,15 @@ router.put("/product", TokenMiddleWare, UpdateProduct)
 router.delete("/product/:id", TokenMiddleWare, DeleteProduct)
 
 //auction
-router.get("/auction",GetAllAuction)
+router.get("/auction", GetAllAuction)
+router.get("/auction/item/:id", GetAuctionbyID)
+
 router.post("/auction", TokenMiddleWare, CreateAuction)
 router.put("/auction/:id", TokenMiddleWare, PostAuction)
 
+
+//
+
+router.post("/bid",TokenMiddleWare,CreateBid)
+router.get("/bid/:id",AllBidbyID)
 export default router

@@ -37,14 +37,27 @@ export const CreateProduct = async (req, res, next) => {
    }
 }
 
-export const GetProductByID = async (req, res, next) => {
-   try {
-      console.log(req.auth)
-      res.status(201).json({ status: "bro" })
-   } catch (error) {
-      next(error)
+
+   export const GetProductByID= async (req, res, next) => {
+      try {
+         const { id } = req.params
+   
+         let item = await Product.findById(id).populate(["category", "artist"])
+         let formattedItems = {
+            _id: item._id?.toHexString(),
+            name: item?.name,
+            image: item?.image,
+            desc: item?.desc,
+            category: item?.category.name,
+            artist: item?.artist.name,
+            price: item?.price,
+         }
+   
+         res.status(200).json(formattedItems)
+      } catch (error) {
+         next(error)
+      }
    }
-}
 export const UpdateProduct = async (req, res, next) => {
    try {
       const { url: image, name, desc, _id, category } = req.body

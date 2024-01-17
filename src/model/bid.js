@@ -1,26 +1,18 @@
 import mongoose from "mongoose"
 
-import user from "./user"
-
 const BidSchema = new mongoose.Schema({
-   name: {
-      type: String,
-      unique: true,
+   item:{
+     type:mongoose.Types.ObjectId,
+     ref:"Auction"
    },
-   image: {
-      type: String,
-   },
-   desc: {
-      type: String,
-   },
-   artist: {
+   bidder: {
       type: mongoose.Types.ObjectId,
-      ref: "",
+      ref:"User"
    },
-   price: {
-      type: String,
-   },
+  amount:{
+   type:Number
+  }
 })
 
-const Product = mongoose.model("Product", ProductSchema)
-export default Product
+const Bid = mongoose.model("Bid", BidSchema)
+export default Bid

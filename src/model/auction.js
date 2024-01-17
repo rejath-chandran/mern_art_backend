@@ -24,7 +24,7 @@ const AuctionSchema = new mongoose.Schema({
    },
    winner: {
       type: String,
-      default:"none",
+      default: "none",
    },
    sold: {
       default: false,
