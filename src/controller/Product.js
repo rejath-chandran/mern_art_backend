@@ -47,11 +47,11 @@ export const GetProductByID = async (req, res, next) => {
 }
 export const UpdateProduct = async (req, res, next) => {
    try {
-    const { url: image, name, desc, _id,category } = req.body
-    const filter = { _id: _id }
-    const update = { image, name, desc ,category}
+      const { url: image, name, desc, _id, category } = req.body
+      const filter = { _id: _id }
+      const update = { image, name, desc, category }
 
-    await Product.findOneAndUpdate(filter, update)
+      await Product.findOneAndUpdate(filter, update)
       res.status(200).json({ status: "bro" })
    } catch (error) {
       next(error)
@@ -69,11 +69,10 @@ export const DeleteProduct = async (req, res, next) => {
 }
 
 export const ProductbyCategoryname = async (req, res, next) => {
-    try {
-       const { id } = req.params
-       const category=await Category.findOne({name:id})
-       console.log(category)
-       const items = await Product.find({category:category._id})
+   try {
+      const { id } = req.params
+      const category = await Category.findOne({ name: id })
+      const items = await Product.find({ category: category._id })
          .populate(["category", "artist"])
          .exec()
       let formattedItems = items.map((i) => ({
@@ -83,10 +82,10 @@ export const ProductbyCategoryname = async (req, res, next) => {
          desc: i.desc,
          category: i.category.name,
          artist: i.artist.name,
-         price:i.price
+         price: i.price,
       }))
       res.json(formattedItems)
-    } catch (error) {
-       next(error)
-    }
- }
+   } catch (error) {
+      next(error)
+   }
+}

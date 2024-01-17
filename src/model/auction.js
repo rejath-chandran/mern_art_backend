@@ -1,8 +1,6 @@
 import mongoose from "mongoose"
 
-import user from "./user"
-
-const ProductSchema = new mongoose.Schema({
+const AuctionSchema = new mongoose.Schema({
    name: {
       type: String,
       unique: true,
@@ -13,14 +11,27 @@ const ProductSchema = new mongoose.Schema({
    desc: {
       type: String,
    },
+   category: {
+      type: mongoose.Types.ObjectId,
+      ref: "Category",
+   },
    artist: {
       type: mongoose.Types.ObjectId,
-      ref: "",
+      ref: "User",
    },
    price: {
       type: String,
    },
+   winner: {
+      type: String,
+      default:"none",
+   },
+   sold: {
+      default: false,
+      type: Boolean,
+   },
 })
 
-const Product = mongoose.model("Product", ProductSchema)
-export default Product
+const Auction = mongoose.model("Auction", AuctionSchema)
+
+export default Auction

@@ -44,15 +44,14 @@ router.post("/register", UserRegister)
 //product
 router.get("/product", GetAllProduct)
 router.get("/product/:id", GetProductByID)
-router.get("/product/category/:id",ProductbyCategoryname)
-
+router.get("/product/category/:id", ProductbyCategoryname)
 
 router.post("/product", TokenMiddleWare, CreateProduct)
 router.put("/product", TokenMiddleWare, UpdateProduct)
 router.delete("/product/:id", TokenMiddleWare, DeleteProduct)
 
 //auction
-router.get("/auction", TokenMiddleWare, GetAllAuction)
+router.get("/auction",GetAllAuction)
 router.post("/auction", TokenMiddleWare, CreateAuction)
 router.put("/auction/:id", TokenMiddleWare, PostAuction)
 
