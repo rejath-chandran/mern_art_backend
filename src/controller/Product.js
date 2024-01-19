@@ -13,7 +13,7 @@ export const GetAllProduct = async (req, res, next) => {
          desc: i.desc,
          category: i.category.name,
          artist: i.artist.name,
-         price:i?.price
+         price: i?.price,
       }))
       res.json(formattedItems)
    } catch (error) {
@@ -24,14 +24,14 @@ export const GetAllProduct = async (req, res, next) => {
 export const CreateProduct = async (req, res, next) => {
    try {
       const artist = req.auth.userId
-      const { name, desc, category, url: image,price } = req.body
+      const { name, desc, category, url: image, price } = req.body
       await Product.create({
          name,
          image,
          desc,
          category,
          artist,
-         price
+         price,
       })
       res.status(201).json({ status: true })
    } catch (error) {
