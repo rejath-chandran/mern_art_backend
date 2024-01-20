@@ -25,6 +25,7 @@ import {
    PostAuction,
 } from "../controller/Auction.js"
 import { AllBidbyID, CreateBid } from "../controller/Bid.js"
+import { Payment, VerifyPayment } from "../model/order.js"
 
 const router = Router()
 
@@ -59,8 +60,10 @@ router.get("/auction/item/:id", GetAuctionbyID)
 router.post("/auction", TokenMiddleWare, CreateAuction)
 router.put("/auction/:id", TokenMiddleWare, PostAuction)
 
-//
-
+//order
+router.get("/payment",Payment)
+router.post("/verify",VerifyPayment)
+//Bid
 router.post("/bid", TokenMiddleWare, CreateBid)
 router.get("/bid/:id", AllBidbyID)
 export default router
