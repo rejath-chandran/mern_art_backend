@@ -1,6 +1,6 @@
 import Category from "../model/category.js"
 import Product from "../model/product.js"
-
+import { IO } from "../socket.js"
 export const GetAllProduct = async (req, res, next) => {
    try {
       const items = await Product.find({})
@@ -32,6 +32,15 @@ export const CreateProduct = async (req, res, next) => {
          category,
          artist,
          price,
+      })
+      IO.on("connection", (socket) => {
+         socket.emit("notify", [
+            {
+               id: 1,
+               message: "New art is store",
+               date: new Date().toISOString().split("T")[0],
+            },
+         ])
       })
       res.status(201).json({ status: true })
    } catch (error) {

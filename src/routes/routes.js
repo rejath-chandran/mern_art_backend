@@ -25,7 +25,8 @@ import {
    PostAuction,
 } from "../controller/Auction.js"
 import { AllBidbyID, CreateBid } from "../controller/Bid.js"
-import { Payment, VerifyPayment } from "../model/order.js"
+
+import { Payment, VerifyPayment ,MakewalletOrder,WalletComplete,Walletbalance} from  "../controller/Order.js"
 
 const router = Router()
 
@@ -61,8 +62,15 @@ router.post("/auction", TokenMiddleWare, CreateAuction)
 router.put("/auction/:id", TokenMiddleWare, PostAuction)
 
 //order
-router.get("/payment",Payment)
-router.post("/verify",VerifyPayment)
+router.post("/payment", TokenMiddleWare, Payment)
+router.post("/verify", VerifyPayment)
+
+//wallet
+router.get("/wallet/:amount",MakewalletOrder)
+router.post("/wallet",TokenMiddleWare,WalletComplete)
+router.get("/walletbalance",TokenMiddleWare,Walletbalance)
+
+
 //Bid
 router.post("/bid", TokenMiddleWare, CreateBid)
 router.get("/bid/:id", AllBidbyID)

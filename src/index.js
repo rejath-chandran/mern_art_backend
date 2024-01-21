@@ -4,12 +4,16 @@ import ConnectToDB from "./config/db.js"
 import router from "./routes/routes.js"
 import cors from "cors"
 import bodyParser from "body-parser"
+import { createServer } from "http"
+import { SocketInit, IO } from "./socket.js"
 
 dotenv.config()
 
 const PORT = process.env.PORT
 const app = express()
 
+let httpserver = new createServer(app)
+SocketInit(httpserver)
 await ConnectToDB()
 
 app.use(cors())
@@ -21,4 +25,4 @@ app.use((err, req, res, next) => {
    next(err)
 })
 
-app.listen(PORT, () => console.log("server started on :", PORT))
+httpserver.listen(PORT, () => console.log("server started on :", PORT))
