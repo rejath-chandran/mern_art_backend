@@ -42,21 +42,21 @@ export const Payment = async (req, res, next) => {
 
 export const VerifyPayment = async (req, res, next) => {
    try {
-    const {order_id}=req.body
-    console.log(order_id,)
+      const { order_id } = req.body
+      console.log(order_id)
       const response = await razorpay.orders.fetch(order_id)
 
-      if (response.status === "paid"){
-        console.log(order_id,)
+      if (response.status === "paid") {
+         console.log(order_id)
 
-       const condition = {order_id:order_id}
+         const condition = { order_id: order_id }
 
-       const updateFields = {payment: true}
+         const updateFields = { payment: true }
 
-       await Order.updateMany(condition,updateFields)
+         await Order.updateMany(condition, updateFields)
 
-        return res.status(200).send("sucess")
-      } 
+         return res.status(200).send("sucess")
+      }
 
       res.status(400).send("failed")
    } catch (error) {
@@ -65,47 +65,47 @@ export const VerifyPayment = async (req, res, next) => {
    }
 }
 
-export const MakewalletOrder=async(req,res,next)=>{
-    try{
-        const {amount}=req.params
-        console.log(amount)
-        const options = {
-            amount:parseInt(amount)*100,
-            currency: "INR",
-            receipt: uuidv4(),
-            payment_capture: 1,
-         }
-        const response = await razorpay.orders.create(options)
-        console.log(response)
-        res.status(201).json({
-           "id" :response.id,
-           "amount":response.amount
-        })
-    }catch(error){
-        next(error)
-    }
+export const MakewalletOrder = async (req, res, next) => {
+   try {
+      const { amount } = req.params
+      console.log(amount)
+      const options = {
+         amount: parseInt(amount) * 100,
+         currency: "INR",
+         receipt: uuidv4(),
+         payment_capture: 1,
+      }
+      const response = await razorpay.orders.create(options)
+      console.log(response)
+      res.status(200).json({
+         id: response.id,
+         amount: response.amount,
+      })
+   } catch (error) {
+      next(error)
+   }
 }
 
-export const WalletComplete=async(req,res,next)=>{
-    try{
-        const {amount}=req.body
-        console.log("req amount",amount)
-        const {userId}=req.auth
-        const u= await User.findById(userId)
-        let newbalnce=parseInt(u.balance)+(parseInt(amount)/100)
-       await User.findOneAndUpdate({_id:userId},{balance:newbalnce})
-        res.status(201).json({"status":true})
-    }catch(error){
-        next(error)
-    }
+export const WalletComplete = async (req, res, next) => {
+   try {
+      const { amount } = req.body
+      console.log("req amount", amount)
+      const { userId } = req.auth
+      const u = await User.findById(userId)
+      let newbalnce = parseInt(u.balance) + parseInt(amount) / 100
+      await User.findOneAndUpdate({ _id: userId }, { balance: newbalnce })
+      res.status(200).json({ status: true })
+   } catch (error) {
+      next(error)
+   }
 }
-export const Walletbalance=async(req,res,next)=>{
-    try{
-        const {userId}=req.auth
-       const u= await User.findById(userId)
-      
-        res.status(200).json({"amount":u.balance})
-    }catch(error){
-        next(error)
-    }
+export const Walletbalance = async (req, res, next) => {
+   try {
+      const { userId } = req.auth
+      const u = await User.findById(userId)
+
+      res.status(200).json({ amount: u.balance })
+   } catch (error) {
+      next(error)
+   }
 }

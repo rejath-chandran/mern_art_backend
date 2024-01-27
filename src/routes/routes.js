@@ -1,6 +1,6 @@
 import dotenv from "dotenv"
 dotenv.config()
-
+import { IO } from "../socket.js"
 import { Router } from "express"
 import {
    CreateCategory,
@@ -26,7 +26,13 @@ import {
 } from "../controller/Auction.js"
 import { AllBidbyID, CreateBid } from "../controller/Bid.js"
 
-import { Payment, VerifyPayment ,MakewalletOrder,WalletComplete,Walletbalance} from  "../controller/Order.js"
+import {
+   Payment,
+   VerifyPayment,
+   MakewalletOrder,
+   WalletComplete,
+   Walletbalance,
+} from "../controller/Order.js"
 
 const router = Router()
 
@@ -66,12 +72,22 @@ router.post("/payment", TokenMiddleWare, Payment)
 router.post("/verify", VerifyPayment)
 
 //wallet
-router.get("/wallet/:amount",MakewalletOrder)
-router.post("/wallet",TokenMiddleWare,WalletComplete)
-router.get("/walletbalance",TokenMiddleWare,Walletbalance)
-
+router.get("/wallet/:amount", MakewalletOrder)
+router.post("/wallet", TokenMiddleWare, WalletComplete)
+router.get("/walletbalance", TokenMiddleWare, Walletbalance)
 
 //Bid
 router.post("/bid", TokenMiddleWare, CreateBid)
 router.get("/bid/:id", AllBidbyID)
 export default router
+
+//test socket
+
+router.get("/sockets",(req,res,next)=>{
+IO.emit("test","workingsss")
+   res.send("333")
+})
+router.get("/sockets1",(req,res,next)=>{
+IO.emit("test","workingsss2")
+   res.send("333")
+})

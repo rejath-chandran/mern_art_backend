@@ -6,9 +6,9 @@ const Orderschema = new mongoose.Schema({
    email: String,
    phone: String,
    adress: String,
-   payment:{
-      type:Boolean,
-      default:false
+   payment: {
+      type: Boolean,
+      default: false,
    },
    status: {
       type: String,
