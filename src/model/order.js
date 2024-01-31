@@ -12,14 +12,14 @@ const Orderschema = new mongoose.Schema({
    },
    status: {
       type: String,
-      enum: ["process", "accepted", "delivered", "rejected"],
-      default: "process",
+      enum: ["placed","processing","shipped","rejected","delivered"],
+      default: "placed",
    },
    product: {
       type: mongoose.Types.ObjectId,
       ref: "Product",
    },
-})
+},{timestamps:true})
 
 const Order = mongoose.model("Order", Orderschema)
 

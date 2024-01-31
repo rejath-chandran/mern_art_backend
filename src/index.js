@@ -24,9 +24,9 @@ app.use((err, req, res, next) => {
    res.status(500).json({ message: "something went wrong" })
    next(err)
 })
-IO.on("connection",(s)=>{
-       console.log(s.id)
-       IO.emit("newm","haaaaaaaaa")
+IO.on("connection", (s) => {
+   console.log(s.id)
+   IO.emit("newm", "haaaaaaaaa")
 })
 // IO.emit("newProduct","heyyyyy")
 httpserver.listen(PORT, () => console.log("server started on :", PORT))

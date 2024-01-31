@@ -21,6 +21,10 @@ const UserSchema = new mongoose.Schema({
       enum: ["user", "admin", "seller"],
       default: "user",
    },
+   orders:[{
+      ref:'Order',
+      type:mongoose.Types.ObjectId
+   }]
 })
 
 UserSchema.pre("save", async function (next) {

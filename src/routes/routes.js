@@ -10,6 +10,7 @@ import {
 } from "../controller/Category.js"
 import { UserLogin, UserRegister } from "../controller/User.js"
 import { expressjwt as jwt } from "express-jwt"
+
 import {
    CreateProduct,
    DeleteProduct,
@@ -18,12 +19,14 @@ import {
    ProductbyCategoryname,
    UpdateProduct,
 } from "../controller/Product.js"
+
 import {
    CreateAuction,
    GetAllAuction,
    GetAuctionbyID,
    PostAuction,
 } from "../controller/Auction.js"
+
 import { AllBidbyID, CreateBid } from "../controller/Bid.js"
 
 import {
@@ -32,6 +35,7 @@ import {
    MakewalletOrder,
    WalletComplete,
    Walletbalance,
+   UserOrders,
 } from "../controller/Order.js"
 
 const router = Router()
@@ -68,8 +72,9 @@ router.post("/auction", TokenMiddleWare, CreateAuction)
 router.put("/auction/:id", TokenMiddleWare, PostAuction)
 
 //order
+router.get("/userorder",TokenMiddleWare,UserOrders)
 router.post("/payment", TokenMiddleWare, Payment)
-router.post("/verify", VerifyPayment)
+router.post("/verify",TokenMiddleWare, VerifyPayment)
 
 //wallet
 router.get("/wallet/:amount", MakewalletOrder)
@@ -83,11 +88,11 @@ export default router
 
 //test socket
 
-router.get("/sockets",(req,res,next)=>{
-IO.emit("test","workingsss")
+router.get("/sockets", (req, res, next) => {
+   IO.emit("test", "workingsss")
    res.send("333")
 })
-router.get("/sockets1",(req,res,next)=>{
-IO.emit("test","workingsss2")
+router.get("/sockets1", (req, res, next) => {
+   IO.emit("test", "workingsss2")
    res.send("333")
 })
