@@ -8,7 +8,7 @@ import {
    UpdateCategory,
    DeleteCategory,
 } from "../controller/Category.js"
-import { UserLogin, UserRegister } from "../controller/User.js"
+import { MakeUserseller, UserLogin, UserRegister } from "../controller/User.js"
 import { expressjwt as jwt } from "express-jwt"
 
 import {
@@ -72,9 +72,9 @@ router.post("/auction", TokenMiddleWare, CreateAuction)
 router.put("/auction/:id", TokenMiddleWare, PostAuction)
 
 //order
-router.get("/userorder",TokenMiddleWare,UserOrders)
+router.get("/userorder", TokenMiddleWare, UserOrders)
 router.post("/payment", TokenMiddleWare, Payment)
-router.post("/verify",TokenMiddleWare, VerifyPayment)
+router.post("/verify", TokenMiddleWare, VerifyPayment)
 
 //wallet
 router.get("/wallet/:amount", MakewalletOrder)
@@ -85,6 +85,11 @@ router.get("/walletbalance", TokenMiddleWare, Walletbalance)
 router.post("/bid", TokenMiddleWare, CreateBid)
 router.get("/bid/:id", AllBidbyID)
 export default router
+
+
+//account
+router.post("/makerseller",TokenMiddleWare,MakeUserseller)
+
 
 //test socket
 

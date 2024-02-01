@@ -8,7 +8,7 @@ const razorpay = new Razorpay({
 })
 
 export const Payment = async (req, res, next) => {
-   console.log("order:",req.body)
+   console.log("order:", req.body)
    const { name, email, phone, adress, cart } = req.body
    const amount = cart.reduce((p, c) => parseInt(c.price) + p, 0)
    const options = {
@@ -54,14 +54,17 @@ export const VerifyPayment = async (req, res, next) => {
 
          const updateFields = { payment: true }
 
-        let b= await Order.updateMany(condition, updateFields)
+         let b = await Order.updateMany(condition, updateFields)
 
-        const Order_list= await Order.find({ order_id: order_id,payment: true }).select('_id')
-        const user = await User.findById(UserId);
-        Order_list.forEach(i=>{
-         user.orders.push(i._id);
-        })
-        await user.save()
+         const Order_list = await Order.find({
+            order_id: order_id,
+            payment: true,
+         }).select("_id")
+         const user = await User.findById(UserId)
+         Order_list.forEach((i) => {
+            user.orders.push(i._id)
+         })
+         await user.save()
 
          return res.status(200).send("sucess")
       }
@@ -118,22 +121,21 @@ export const Walletbalance = async (req, res, next) => {
    }
 }
 
-export const UserOrders=async(req,res,next)=>{
-   try{
+export const UserOrders = async (req, res, next) => {
+   try {
       const UserId = req.auth.userId
-     
-      let user=  await User.findById(UserId)
-      let user_orders=[]
 
-      for(const i of user.orders.reverse()){
-         let ordr=await Order.findById(i).populate('product')
-         if(ordr!=null) user_orders.push(ordr)
+      let user = await User.findById(UserId)
+      let user_orders = []
+
+      for (const i of user.orders.reverse()) {
+         let ordr = await Order.findById(i).populate("product")
+         if (ordr != null) user_orders.push(ordr)
       }
-      
+
       console.log(user_orders)
       res.status(200).json(user_orders)
-   }catch(error){
+   } catch (error) {
       next(error)
    }
 }
-

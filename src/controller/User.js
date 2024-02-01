@@ -4,10 +4,9 @@ export const UserLogin = async (req, res, next) => {
    try {
       const { email, password, type = "customer" } = req.body
       let newuser
-      
+
       if (type === "customer") {
          newuser = await user.findOne({ email: email })
-
       } else if (type === "seller") {
          newuser = await user.findOne({ email: email, role: "seller" })
       } else {
@@ -46,5 +45,15 @@ export const UserRegister = async (req, res, next) => {
       res.status(201).json({ status: true })
    } catch (error) {
       next(error)
+   }
+}
+
+export const MakeUserseller=async(req,res,next)=>{
+   try{
+      const UserId = req.auth.userId
+      await  user.findByIdAndUpdate(UserId,{role:"seller"})
+      return res.status(200).json({"status":true})
+   }catch(err){
+      next(err)
    }
 }
