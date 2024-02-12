@@ -16,6 +16,8 @@ import {
    DeleteProduct,
    GetAllProduct,
    GetProductByID,
+   GetProductReview,
+   MakeProductReview,
    ProductbyCategoryname,
    UpdateProduct,
 } from "../controller/Product.js"
@@ -36,6 +38,8 @@ import {
    WalletComplete,
    Walletbalance,
    UserOrders,
+   SellerOrders,
+   ChangeOrderStatus,
 } from "../controller/Order.js"
 
 const router = Router()
@@ -75,6 +79,8 @@ router.put("/auction/:id", TokenMiddleWare, PostAuction)
 router.get("/userorder", TokenMiddleWare, UserOrders)
 router.post("/payment", TokenMiddleWare, Payment)
 router.post("/verify", TokenMiddleWare, VerifyPayment)
+router.get("/sellerorder/:id",TokenMiddleWare,SellerOrders)
+router.post("/changeorderstatus",TokenMiddleWare,ChangeOrderStatus)
 
 //wallet
 router.get("/wallet/:amount", MakewalletOrder)
@@ -86,9 +92,14 @@ router.post("/bid", TokenMiddleWare, CreateBid)
 router.get("/bid/:id", AllBidbyID)
 export default router
 
-
 //account
-router.post("/makerseller",TokenMiddleWare,MakeUserseller)
+router.post("/makerseller", TokenMiddleWare, MakeUserseller)
+
+
+
+//review
+router.post("/review",TokenMiddleWare,MakeProductReview)
+router.get("/review/:id",GetProductReview)
 
 
 //test socket

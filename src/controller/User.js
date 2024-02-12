@@ -48,12 +48,12 @@ export const UserRegister = async (req, res, next) => {
    }
 }
 
-export const MakeUserseller=async(req,res,next)=>{
-   try{
+export const MakeUserseller = async (req, res, next) => {
+   try {
       const UserId = req.auth.userId
-      await  user.findByIdAndUpdate(UserId,{role:"seller"})
-      return res.status(200).json({"status":true})
-   }catch(err){
+      await user.findByIdAndUpdate(UserId, { role: "seller" })
+      return res.status(200).json({ status: true })
+   } catch (err) {
       next(err)
    }
 }

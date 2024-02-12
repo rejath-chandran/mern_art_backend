@@ -2,6 +2,7 @@ import Razorpay from "razorpay"
 import { v4 as uuidv4 } from "uuid"
 import Order from "../model/order.js"
 import User from "../model/user.js"
+import Product from "../model/product.js"
 const razorpay = new Razorpay({
    key_id: "rzp_test_1Ez7RpNLZ42xoT",
    key_secret: "fLLWfBaL1DcuH9CDkxwEPcIT",
@@ -137,5 +138,62 @@ export const UserOrders = async (req, res, next) => {
       res.status(200).json(user_orders)
    } catch (error) {
       next(error)
+   }
+}
+
+export const SellerOrders = async (req, res, next) => {
+   try{
+      const {id}=req.params
+      const UserId = req.auth.userId
+      const SellerPids=[]
+      let sellerPrdcts=await Product.find({artist:UserId},'_id')
+
+      for(const i of sellerPrdcts){
+            SellerPids.push(i._id)
+      }
+
+      let SellerOrders=await Order.find({
+         product:{
+               $in:SellerPids
+         },
+         status:{
+            $eq:id
+         }
+      }).populate('product')
+      const formatedOrders=[]
+      for(const item of SellerOrders){
+         formatedOrders.push(
+         {
+         id: item.order_id,
+         name:item.name,
+         email:item.email,
+         phone:item.phone,
+         adress:item.adress,
+         product:item.product.name,
+         status:item.status
+         }
+         )
+      }
+    
+
+      res.status(200).json(formatedOrders)
+     
+   }catch(erro){
+      next(erro)
+   }
+}
+
+export const ChangeOrderStatus=async(req,res,next)=>{
+   try{
+         const {orderId,status}=req.body
+
+         await Order.updateOne({order_id:orderId},{status:status})
+
+         res.status(200).json({
+            status:true
+         })
+
+   }catch(error){
+     next(error)
    }
 }

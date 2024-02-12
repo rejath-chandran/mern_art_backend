@@ -112,3 +112,23 @@ export const ProductbyCategoryname = async (req, res, next) => {
       next(error)
    }
 }
+
+
+export const MakeProductReview=async(req,res,next)=>{
+   try{
+      const {pid,stars,review}=req.body
+
+   }catch(error){
+      next(error)
+   }
+
+}
+
+export const GetProductReview=async(req,res,next)=>{
+try{
+  
+}catch(error){
+   next(error)
+}
+
+}
