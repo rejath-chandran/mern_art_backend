@@ -142,58 +142,53 @@ export const UserOrders = async (req, res, next) => {
 }
 
 export const SellerOrders = async (req, res, next) => {
-   try{
-      const {id}=req.params
+   try {
+      const { id } = req.params
       const UserId = req.auth.userId
-      const SellerPids=[]
-      let sellerPrdcts=await Product.find({artist:UserId},'_id')
+      const SellerPids = []
+      let sellerPrdcts = await Product.find({ artist: UserId }, "_id")
 
-      for(const i of sellerPrdcts){
-            SellerPids.push(i._id)
+      for (const i of sellerPrdcts) {
+         SellerPids.push(i._id)
       }
 
-      let SellerOrders=await Order.find({
-         product:{
-               $in:SellerPids
+      let SellerOrders = await Order.find({
+         product: {
+            $in: SellerPids,
          },
-         status:{
-            $eq:id
-         }
-      }).populate('product')
-      const formatedOrders=[]
-      for(const item of SellerOrders){
-         formatedOrders.push(
-         {
-         id: item.order_id,
-         name:item.name,
-         email:item.email,
-         phone:item.phone,
-         adress:item.adress,
-         product:item.product.name,
-         status:item.status
-         }
-         )
+         status: {
+            $eq: id,
+         },
+      }).populate("product")
+      const formatedOrders = []
+      for (const item of SellerOrders) {
+         formatedOrders.push({
+            id: item.order_id,
+            name: item.name,
+            email: item.email,
+            phone: item.phone,
+            adress: item.adress,
+            product: item.product.name,
+            status: item.status,
+         })
       }
-    
 
       res.status(200).json(formatedOrders)
-     
-   }catch(erro){
+   } catch (erro) {
       next(erro)
    }
 }
 
-export const ChangeOrderStatus=async(req,res,next)=>{
-   try{
-         const {orderId,status}=req.body
+export const ChangeOrderStatus = async (req, res, next) => {
+   try {
+      const { orderId, status } = req.body
 
-         await Order.updateOne({order_id:orderId},{status:status})
+      await Order.updateOne({ order_id: orderId }, { status: status })
 
-         res.status(200).json({
-            status:true
-         })
-
-   }catch(error){
-     next(error)
+      res.status(200).json({
+         status: true,
+      })
+   } catch (error) {
+      next(error)
    }
 }

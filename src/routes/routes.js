@@ -79,8 +79,8 @@ router.put("/auction/:id", TokenMiddleWare, PostAuction)
 router.get("/userorder", TokenMiddleWare, UserOrders)
 router.post("/payment", TokenMiddleWare, Payment)
 router.post("/verify", TokenMiddleWare, VerifyPayment)
-router.get("/sellerorder/:id",TokenMiddleWare,SellerOrders)
-router.post("/changeorderstatus",TokenMiddleWare,ChangeOrderStatus)
+router.get("/sellerorder/:id", TokenMiddleWare, SellerOrders)
+router.post("/changeorderstatus", TokenMiddleWare, ChangeOrderStatus)
 
 //wallet
 router.get("/wallet/:amount", MakewalletOrder)
@@ -95,12 +95,9 @@ export default router
 //account
 router.post("/makerseller", TokenMiddleWare, MakeUserseller)
 
-
-
 //review
-router.post("/review",TokenMiddleWare,MakeProductReview)
-router.get("/review/:id",GetProductReview)
-
+router.post("/review", TokenMiddleWare, MakeProductReview)
+router.get("/review/:id", GetProductReview)
 
 //test socket
 
