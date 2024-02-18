@@ -8,7 +8,7 @@ import {
    UpdateCategory,
    DeleteCategory,
 } from "../controller/Category.js"
-import { MakeUserseller, UserLogin, UserRegister } from "../controller/User.js"
+import { MakeUserseller, UserLogin, UserRegister,SellerInfo } from "../controller/User.js"
 import { expressjwt as jwt } from "express-jwt"
 
 import {
@@ -20,10 +20,12 @@ import {
    MakeProductReview,
    ProductbyCategoryname,
    UpdateProduct,
+   ProductByArtistId
 } from "../controller/Product.js"
 
 import {
    CreateAuction,
+   DeleteAuctionByid,
    GetAllAuction,
    GetAuctionbyID,
    PostAuction,
@@ -58,11 +60,14 @@ router.delete("/category/:id", DeleteCategory)
 //user
 router.post("/login", UserLogin)
 router.post("/register", UserRegister)
+router.get("/seller/:id",SellerInfo)
 
 //product
 router.get("/product", GetAllProduct)
 router.get("/product/:id", GetProductByID)
 router.get("/product/category/:id", ProductbyCategoryname)
+router.get("/product/artist/:id",ProductByArtistId)
+
 
 router.post("/product", TokenMiddleWare, CreateProduct)
 router.put("/product", TokenMiddleWare, UpdateProduct)
@@ -74,7 +79,7 @@ router.get("/auction/item/:id", GetAuctionbyID)
 
 router.post("/auction", TokenMiddleWare, CreateAuction)
 router.put("/auction/:id", TokenMiddleWare, PostAuction)
-
+router.delete("/auction/:id", TokenMiddleWare, DeleteAuctionByid)
 //order
 router.get("/userorder", TokenMiddleWare, UserOrders)
 router.post("/payment", TokenMiddleWare, Payment)
@@ -90,7 +95,7 @@ router.get("/walletbalance", TokenMiddleWare, Walletbalance)
 //Bid
 router.post("/bid", TokenMiddleWare, CreateBid)
 router.get("/bid/:id", AllBidbyID)
-export default router
+
 
 //account
 router.post("/makerseller", TokenMiddleWare, MakeUserseller)
@@ -109,3 +114,5 @@ router.get("/sockets1", (req, res, next) => {
    IO.emit("test", "workingsss2")
    res.send("333")
 })
+
+export default router

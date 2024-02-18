@@ -30,7 +30,21 @@ const AuctionSchema = new mongoose.Schema({
       default: false,
       type: Boolean,
    },
+   expireAt: { 
+      type: Date,
+      default: null
+   },
 })
+
+AuctionSchema.index({ expireAt: 1 }, { expireAfterSeconds: 0 })
+AuctionSchema.methods.setExpiration = function(time) {
+
+   console.log(time)
+
+   let mili=new Date(time)-new Date()
+   let expirationDate=Date.now()+mili
+   this.expireAt = expirationDate;
+};
 
 const Auction = mongoose.model("Auction", AuctionSchema)
 

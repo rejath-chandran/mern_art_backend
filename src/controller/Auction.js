@@ -4,8 +4,15 @@ import Product from "../model/product.js"
 export const CreateAuction = async (req, res, next) => {
    try {
       const artist = req.auth.userId
-      const { name, desc, category, price, url: image } = req.body
-      await Auction.create({ name, desc, category, price, image, artist })
+      const { name, desc, category, price, url: image ,time} = req.body
+      console.log("time-",time)
+
+      let new_auc=new Auction({ name, desc, category, price, image, artist})
+     
+      new_auc.setExpiration(time)
+
+      await new_auc.save()
+
       res.status(201).json({ status: true })
    } catch (error) {
       next(error)
@@ -25,6 +32,7 @@ export const GetAllAuction = async (req, res, next) => {
          price: i.price,
          sold: i.sold,
          winner: i.winner,
+         expire:i.expireAt
       }))
       res.json(formattedItems)
    } catch (error) {
@@ -56,6 +64,16 @@ export const GetAuctionbyID = async (req, res, next) => {
 
       res.status(200).json(formattedItems)
    } catch (error) {
+      next(error)
+   }
+}
+
+export const DeleteAuctionByid=async(req,res,next)=>{
+   try{
+      const {id}=req.params
+      await Auction.findByIdAndDelete(id)
+      res.status(200).json({status:true,deleted:id})
+   }catch(error){
       next(error)
    }
 }

@@ -22,7 +22,7 @@ export const UserLogin = async (req, res, next) => {
             { userId: newuser._id },
             process.env.JWT_SECRET,
             {
-               expiresIn: "24h",
+               expiresIn: "720h",
             },
          )
          return res.status(200).json({ status: true, type, Token })
@@ -55,5 +55,15 @@ export const MakeUserseller = async (req, res, next) => {
       return res.status(200).json({ status: true })
    } catch (err) {
       next(err)
+   }
+}
+
+export const SellerInfo=async(req,res,next)=>{
+   try{
+      const {id}=req.params
+      const Seller=await user.findById(id)
+      res.json(Seller)
+   }catch(error){
+      next(error)
    }
 }
