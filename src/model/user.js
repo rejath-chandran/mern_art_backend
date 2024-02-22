@@ -1,5 +1,6 @@
 import mongoose from "mongoose"
 import { hash, compare } from "bcrypt"
+
 const UserSchema = new mongoose.Schema({
    name: {
       type: String,
@@ -21,6 +22,14 @@ const UserSchema = new mongoose.Schema({
       enum: ["user", "admin", "seller"],
       default: "user",
    },
+   followers:{
+      type:mongoose.Types.ObjectId,
+      ref:"User"
+   },
+   follow_count:{
+      type:String,
+      get:CountFollowers
+   },
    orders: [
       {
          ref: "Order",
@@ -39,6 +48,10 @@ UserSchema.method("verify", async function (password) {
    const isValid = await compare(password, this.password)
    return isValid
 })
+
+function CountFollowers(){
+   
+}
 
 const user = mongoose.model("User", UserSchema)
 

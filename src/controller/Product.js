@@ -48,17 +48,15 @@ export const CreateProduct = async (req, res, next) => {
    }
 }
 
-export const ProductByArtistId = async(req,res,next)=>{
-   try{
-        const {id}=req.params
-        const Products=await Product.find({artist:id})
-        res.status(200).json(Products)
+export const ProductByArtistId = async (req, res, next) => {
+   try {
+      const { id } = req.params
+      const Products = await Product.find({ artist: id })
+      res.status(200).json(Products)
    } catch (error) {
       next(error)
    }
 }
-
-
 
 export const GetProductByID = async (req, res, next) => {
    try {
@@ -72,7 +70,7 @@ export const GetProductByID = async (req, res, next) => {
          desc: item?.desc,
          category: item?.category.name,
          artist: item?.artist.name,
-         artistId:item.artist._id,
+         artistId: item.artist._id,
          price: item?.price,
       }
 

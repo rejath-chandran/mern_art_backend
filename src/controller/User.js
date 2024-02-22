@@ -58,12 +58,12 @@ export const MakeUserseller = async (req, res, next) => {
    }
 }
 
-export const SellerInfo=async(req,res,next)=>{
-   try{
-      const {id}=req.params
-      const Seller=await user.findById(id)
+export const SellerInfo = async (req, res, next) => {
+   try {
+      const { id } = req.params
+      const Seller = await user.findById(id)
       res.json(Seller)
-   }catch(error){
+   } catch (error) {
       next(error)
    }
 }

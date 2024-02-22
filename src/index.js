@@ -8,7 +8,9 @@ import { createServer } from "http"
 import { SocketInit, IO as io } from "./socket.js"
 import { Socket } from "socket.io"
 import Product from "./model/product.js"
-import chalk from 'chalk';
+import chalk from "chalk"
+import {Add,Remove,notify_que} from './config/Que.js'
+import moment from "moment"
 dotenv.config()
 
 const PORT = process.env.PORT
@@ -16,8 +18,7 @@ const app = express()
 
 let httpserver = new createServer(app)
 SocketInit(httpserver)
-let connection=await ConnectToDB()
-
+let connection = await ConnectToDB()
 
 app.use(cors())
 app.use(bodyParser.json())
@@ -29,17 +30,22 @@ app.use((err, req, res, next) => {
 })
 
 io.on("connection", (client) => {
-   
-   console.log("new connection ✅",client.id) 
 
-   client.emit("notify",[{id:1,message:"new dog",date:"friday"}])
+   console.log("new connection ✅", client.id)
+   Add(client.id)
 
-   client.on("disconnect",()=>console.log("close connection  ❌"))
+   io.emit("notify", [
+      ...notify_que.reverse(),
+      // { id: 1, message:"hey", date:moment().format('MMMM Do YYYY, h:mm:ss a') }
+   ])
+
+   client.on("disconnect", () => {
+      Remove(client.id)
+      console.log("close connection  ❌",client.id)
+   })
 
 })
 
-
-
-
-
-httpserver.listen(PORT, () => console.log("server started on :",chalk.blue(PORT) ))
+httpserver.listen(PORT, () =>
+   console.log("server started on :", chalk.blue(PORT)),
+)
