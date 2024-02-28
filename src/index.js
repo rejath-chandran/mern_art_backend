@@ -9,7 +9,7 @@ import { SocketInit, IO as io } from "./socket.js"
 import { Socket } from "socket.io"
 import Product from "./model/product.js"
 import chalk from "chalk"
-import {Add,Remove,notify_que} from './config/Que.js'
+import { Add, Remove, notify_que } from "./config/Que.js"
 import moment from "moment"
 dotenv.config()
 
@@ -30,7 +30,6 @@ app.use((err, req, res, next) => {
 })
 
 io.on("connection", (client) => {
-
    console.log("new connection ✅", client.id)
    Add(client.id)
 
@@ -41,9 +40,8 @@ io.on("connection", (client) => {
 
    client.on("disconnect", () => {
       Remove(client.id)
-      console.log("close connection  ❌",client.id)
+      console.log("close connection  ❌", client.id)
    })
-
 })
 
 httpserver.listen(PORT, () =>

@@ -13,6 +13,8 @@ import {
    UserLogin,
    UserRegister,
    SellerInfo,
+   SetSystem,
+   GetSystem,
 } from "../controller/User.js"
 import { expressjwt as jwt } from "express-jwt"
 
@@ -106,6 +108,10 @@ router.post("/makerseller", TokenMiddleWare, MakeUserseller)
 //review
 router.post("/review", TokenMiddleWare, MakeProductReview)
 router.get("/review/:id", GetProductReview)
+
+//
+router.post("/system",TokenMiddleWare,SetSystem)
+router.get("/system",GetSystem)
 
 //test socket
 

@@ -1,3 +1,4 @@
+import system from "../model/sytem.js"
 import user from "../model/user.js"
 import Jwt from "jsonwebtoken"
 export const UserLogin = async (req, res, next) => {
@@ -64,6 +65,32 @@ export const SellerInfo = async (req, res, next) => {
       const Seller = await user.findById(id)
       res.json(Seller)
    } catch (error) {
+      next(error)
+   }
+}
+
+export const SetSystem=async(req,res,next)=>{
+   try{
+      const {name,logo,com,about,home}=req.body
+      let data
+      if(logo==''){
+         data={name,com,about,home}
+      }else{
+         data={name,logo,com,about,home}
+      }
+      await system.findOneAndUpdate({},{$set:data},{new:true})
+      res.status(200).json({status:true})
+
+   }catch(error){
+      next(error)
+   }
+}
+export const GetSystem=async(req,res,next)=>{
+   try{
+     let data= await system.findOne({})
+     res.status(200).json(data)
+
+   }catch(error){
       next(error)
    }
 }

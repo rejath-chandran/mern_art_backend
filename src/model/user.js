@@ -22,13 +22,13 @@ const UserSchema = new mongoose.Schema({
       enum: ["user", "admin", "seller"],
       default: "user",
    },
-   followers:{
-      type:mongoose.Types.ObjectId,
-      ref:"User"
+   followers: {
+      type: mongoose.Types.ObjectId,
+      ref: "User",
    },
-   follow_count:{
-      type:String,
-      get:CountFollowers
+   follow_count: {
+      type: String,
+      get: CountFollowers,
    },
    orders: [
       {
@@ -49,9 +49,7 @@ UserSchema.method("verify", async function (password) {
    return isValid
 })
 
-function CountFollowers(){
-   
-}
+function CountFollowers() {}
 
 const user = mongoose.model("User", UserSchema)
 

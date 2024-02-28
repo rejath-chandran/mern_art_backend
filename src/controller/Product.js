@@ -81,12 +81,19 @@ export const GetProductByID = async (req, res, next) => {
 }
 export const UpdateProduct = async (req, res, next) => {
    try {
-      const { url: image, name, desc, _id, category } = req.body
+      const { url: image, name, desc, _id, category,price } = req.body
+      
       const filter = { _id: _id }
-      const update = { image, name, desc, category }
+      let update
 
+      if(image==''){
+         update = { name, desc, category,price }
+      }else{
+            update={ name, desc, category,price,image }
+      }
+      
       await Product.findOneAndUpdate(filter, update)
-      res.status(200).json({ status: "bro" })
+      res.status(200).json({ status: "sucess" })
    } catch (error) {
       next(error)
    }
