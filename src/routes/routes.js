@@ -110,8 +110,8 @@ router.post("/review", TokenMiddleWare, MakeProductReview)
 router.get("/review/:id", GetProductReview)
 
 //
-router.post("/system",TokenMiddleWare,SetSystem)
-router.get("/system",GetSystem)
+router.post("/system", TokenMiddleWare, SetSystem)
+router.get("/system", GetSystem)
 
 //test socket
 

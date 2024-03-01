@@ -1,7 +1,6 @@
 import mongoose from "mongoose"
 
 const systemchema = new mongoose.Schema({
-
    name: {
       type: String,
    },
@@ -11,17 +10,15 @@ const systemchema = new mongoose.Schema({
    com: {
       type: Number,
    },
-   home:{
-    type:String,
-    default:"welcome"
+   home: {
+      type: String,
+      default: "welcome",
    },
-   about:{
-    type: String,
-   }
-
+   about: {
+      type: String,
+   },
 })
 
+const system = mongoose.model("system", systemchema)
 
-const system = mongoose.model("system",systemchema)
-
-export default  system
+export default system
