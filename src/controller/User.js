@@ -92,3 +92,12 @@ export const GetSystem = async (req, res, next) => {
       next(error)
    }
 }
+
+export const GetAllUsersinApp = async (req, res, next) => {
+   try{
+         let data=await user.find({}).sort({_id:-1})
+         res.status(200).json(data)
+   }catch(error){
+      next(error)
+   }
+}

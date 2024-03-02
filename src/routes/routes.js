@@ -15,6 +15,7 @@ import {
    SellerInfo,
    SetSystem,
    GetSystem,
+   GetAllUsersinApp,
 } from "../controller/User.js"
 import { expressjwt as jwt } from "express-jwt"
 
@@ -50,7 +51,13 @@ import {
    SellerOrders,
    ChangeOrderStatus,
 } from "../controller/Order.js"
-import { AdminWalletStatus, AdminWalletTable, MakeWalletWithdrawrequest, UserWalletTable } from "../controller/wallet.js"
+import {
+   AdminDashorad,
+   AdminWalletStatus,
+   AdminWalletTable,
+   MakeWalletWithdrawrequest,
+   UserWalletTable,
+} from "../controller/wallet.js"
 
 const router = Router()
 
@@ -69,6 +76,7 @@ router.delete("/category/:id", DeleteCategory)
 router.post("/login", UserLogin)
 router.post("/register", UserRegister)
 router.get("/seller/:id", SellerInfo)
+router.get("/app_users", GetAllUsersinApp)
 
 //product
 router.get("/product", GetAllProduct)
@@ -99,12 +107,12 @@ router.get("/wallet/:amount", MakewalletOrder)
 router.post("/wallet", TokenMiddleWare, WalletComplete)
 router.get("/walletbalance", TokenMiddleWare, Walletbalance)
 
-router.post("/wallet_request",TokenMiddleWare,MakeWalletWithdrawrequest)
-router.get("/user_wallet_table",TokenMiddleWare,UserWalletTable)
+router.post("/wallet_request", TokenMiddleWare, MakeWalletWithdrawrequest)
+router.get("/user_wallet_table", TokenMiddleWare, UserWalletTable)
 
-router.get("/admin_wallet_table",AdminWalletTable)
-router.post("/change_wallet_status",AdminWalletStatus)
-
+router.get("/admin_wallet_table", AdminWalletTable)
+router.post("/change_wallet_status", AdminWalletStatus)
+router.get("/admin_dashboard",AdminDashorad)
 
 //Bid
 router.post("/bid", TokenMiddleWare, CreateBid)
