@@ -50,6 +50,7 @@ import {
    SellerOrders,
    ChangeOrderStatus,
 } from "../controller/Order.js"
+import { AdminWalletStatus, AdminWalletTable, MakeWalletWithdrawrequest, UserWalletTable } from "../controller/wallet.js"
 
 const router = Router()
 
@@ -97,6 +98,13 @@ router.post("/changeorderstatus", TokenMiddleWare, ChangeOrderStatus)
 router.get("/wallet/:amount", MakewalletOrder)
 router.post("/wallet", TokenMiddleWare, WalletComplete)
 router.get("/walletbalance", TokenMiddleWare, Walletbalance)
+
+router.post("/wallet_request",TokenMiddleWare,MakeWalletWithdrawrequest)
+router.get("/user_wallet_table",TokenMiddleWare,UserWalletTable)
+
+router.get("/admin_wallet_table",AdminWalletTable)
+router.post("/change_wallet_status",AdminWalletStatus)
+
 
 //Bid
 router.post("/bid", TokenMiddleWare, CreateBid)

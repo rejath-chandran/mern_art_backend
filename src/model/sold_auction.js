@@ -1,13 +1,11 @@
 import mongoose from "mongoose"
 
-
 const SoldAuctionSchema = new mongoose.Schema({
-    
-    aid:{
-         type:mongoose.Types.ObjectId,
-         ref:"Auction"
-    },
-    name: {
+   aid: {
+      type: mongoose.Types.ObjectId,
+      ref: "Auction",
+   },
+   name: {
       type: String,
       unique: true,
    },
@@ -38,5 +36,5 @@ const SoldAuctionSchema = new mongoose.Schema({
    },
 })
 
-const SoldAuction=mongoose.model("SoldAuction", SoldAuctionSchema)
+const SoldAuction = mongoose.model("SoldAuction", SoldAuctionSchema)
 export default SoldAuction
