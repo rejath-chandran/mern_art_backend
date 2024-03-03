@@ -20,9 +20,14 @@ export const CreateCategory = async (req, res) => {
 }
 export const UpdateCategory = async (req, res) => {
    try {
-      const { url: image, name, desc, _id } = req.body
-      const filter = { _id: _id }
-      const update = { image, name, desc }
+      const { image, name, desc, id } = req.body
+
+      console.log(image)
+
+      const filter = { _id:id }
+
+      const update = {name,desc,image}
+
       await Category.findOneAndUpdate(filter, update)
       res.json({ status: true })
    } catch {

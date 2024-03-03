@@ -5,9 +5,9 @@ const UserSchema = new mongoose.Schema({
    name: {
       type: String,
    },
-   image:{
+   image: {
       type: String,
-      default:""
+      default: "",
    },
    email: {
       type: String,

@@ -62,31 +62,50 @@ export const AdminWalletStatus = async (req, res, next) => {
       next(erro)
    }
 }
-export const AdminDashorad=async(req,res,next)=>{
-    try{
-        let count_product=await Product.find({}).count()
-        let count_user=await user.find({}).count()
-        let recent_user=await user.find({}).sort({_id:-1}).limit(2)
-        let top_product=await Product.find({}).populate('artist').sort({price:-1}).limit(10)
-        let state = {
-            options: {
-              chart: {
-                id: "basic-bar",
-              },
-              xaxis: {
-                name:"MONTHS",
-                categories: ['MAR','APR','MAY','JUN','JULY','AUG','SEP','NOV','DEC'],
-              },
+export const AdminDashorad = async (req, res, next) => {
+   try {
+      let count_product = await Product.find({}).count()
+      let count_user = await user.find({}).count()
+      let recent_user = await user.find({}).sort({ _id: -1 }).limit(2)
+      let top_product = await Product.find({})
+         .populate("artist")
+         .sort({ price: -1 })
+         .limit(10)
+      let state = {
+         options: {
+            chart: {
+               id: "basic-bar",
             },
-            series: [
-              {
-                name: "USER COUNT",
-                data: [count_user, 0, 0, 0, 0, 0, 0, 0],
-              }
-            ],
-          };
-        res.status(200).json({count_product,count_user,chart:state,recent_user,top_product})
-    }catch(error){
-        next(error)
-    }
+            xaxis: {
+               name: "MONTHS",
+               categories: [
+                  "MAR",
+                  "APR",
+                  "MAY",
+                  "JUN",
+                  "JULY",
+                  "AUG",
+                  "SEP",
+                  "NOV",
+                  "DEC",
+               ],
+            },
+         },
+         series: [
+            {
+               name: "USER COUNT",
+               data: [count_user, 0, 0, 0, 0, 0, 0, 0],
+            },
+         ],
+      }
+      res.status(200).json({
+         count_product,
+         count_user,
+         chart: state,
+         recent_user,
+         top_product,
+      })
+   } catch (error) {
+      next(error)
+   }
 }

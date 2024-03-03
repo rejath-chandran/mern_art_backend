@@ -58,6 +58,8 @@ import {
    MakeWalletWithdrawrequest,
    UserWalletTable,
 } from "../controller/wallet.js"
+import { DeleteSupportById, GetAllUserSupport, MakeUserSupport } from "../controller/support.js"
+import { GetCommentByProduct, MakeCommentByProduct } from "../controller/comment.js"
 
 const router = Router()
 
@@ -71,6 +73,8 @@ router.post("/category", CreateCategory)
 router.get("/category", GetAllCategory)
 router.put("/category", UpdateCategory)
 router.delete("/category/:id", DeleteCategory)
+router.post("/make_comment",TokenMiddleWare,MakeCommentByProduct)
+router.get("/get_comment/:id",GetCommentByProduct)
 
 //user
 router.post("/login", UserLogin)
@@ -112,7 +116,7 @@ router.get("/user_wallet_table", TokenMiddleWare, UserWalletTable)
 
 router.get("/admin_wallet_table", AdminWalletTable)
 router.post("/change_wallet_status", AdminWalletStatus)
-router.get("/admin_dashboard",AdminDashorad)
+router.get("/admin_dashboard", AdminDashorad)
 
 //Bid
 router.post("/bid", TokenMiddleWare, CreateBid)
@@ -128,6 +132,11 @@ router.get("/review/:id", GetProductReview)
 //
 router.post("/system", TokenMiddleWare, SetSystem)
 router.get("/system", GetSystem)
+
+//support
+router.post("/create_support",MakeUserSupport)
+router.get("/support",GetAllUserSupport)
+router.post("/delete_support",DeleteSupportById)
 
 //test socket
 
