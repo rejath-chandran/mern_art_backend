@@ -51,6 +51,9 @@ export const CreateProduct = async (req, res, next) => {
 export const ProductByArtistId = async (req, res, next) => {
    try {
       const { id } = req.params
+      if(id==1){
+         id=req.auth
+      }
       const Products = await Product.find({ artist: id })
       res.status(200).json(Products)
    } catch (error) {
@@ -142,6 +145,15 @@ export const MakeProductReview = async (req, res, next) => {
 export const GetProductReview = async (req, res, next) => {
    try {
    } catch (error) {
+      next(error)
+   }
+}
+export const ProductByArtistSeller = async (req, res, next) => {
+   try{
+      const { userId } = req.auth
+      let data=await Product.find({artist:userId})
+      res.status(200).json(data)
+   }catch(error){
       next(error)
    }
 }

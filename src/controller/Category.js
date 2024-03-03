@@ -24,9 +24,9 @@ export const UpdateCategory = async (req, res) => {
 
       console.log(image)
 
-      const filter = { _id:id }
+      const filter = { _id: id }
 
-      const update = {name,desc,image}
+      const update = { name, desc, image }
 
       await Category.findOneAndUpdate(filter, update)
       res.json({ status: true })

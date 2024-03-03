@@ -29,6 +29,7 @@ import {
    ProductbyCategoryname,
    UpdateProduct,
    ProductByArtistId,
+   ProductByArtistSeller,
 } from "../controller/Product.js"
 
 import {
@@ -58,8 +59,15 @@ import {
    MakeWalletWithdrawrequest,
    UserWalletTable,
 } from "../controller/wallet.js"
-import { DeleteSupportById, GetAllUserSupport, MakeUserSupport } from "../controller/support.js"
-import { GetCommentByProduct, MakeCommentByProduct } from "../controller/comment.js"
+import {
+   DeleteSupportById,
+   GetAllUserSupport,
+   MakeUserSupport,
+} from "../controller/support.js"
+import {
+   GetCommentByProduct,
+   MakeCommentByProduct,
+} from "../controller/comment.js"
 
 const router = Router()
 
@@ -73,8 +81,8 @@ router.post("/category", CreateCategory)
 router.get("/category", GetAllCategory)
 router.put("/category", UpdateCategory)
 router.delete("/category/:id", DeleteCategory)
-router.post("/make_comment",TokenMiddleWare,MakeCommentByProduct)
-router.get("/get_comment/:id",GetCommentByProduct)
+router.post("/make_comment", TokenMiddleWare, MakeCommentByProduct)
+router.get("/get_comment/:id", GetCommentByProduct)
 
 //user
 router.post("/login", UserLogin)
@@ -87,6 +95,7 @@ router.get("/product", GetAllProduct)
 router.get("/product/:id", GetProductByID)
 router.get("/product/category/:id", ProductbyCategoryname)
 router.get("/product/artist/:id", ProductByArtistId)
+router.get("/artist_product",TokenMiddleWare,ProductByArtistSeller)  
 
 router.post("/product", TokenMiddleWare, CreateProduct)
 router.put("/product", TokenMiddleWare, UpdateProduct)
@@ -134,9 +143,9 @@ router.post("/system", TokenMiddleWare, SetSystem)
 router.get("/system", GetSystem)
 
 //support
-router.post("/create_support",MakeUserSupport)
-router.get("/support",GetAllUserSupport)
-router.post("/delete_support",DeleteSupportById)
+router.post("/create_support", MakeUserSupport)
+router.get("/support", GetAllUserSupport)
+router.post("/delete_support", DeleteSupportById)
 
 //test socket
 
