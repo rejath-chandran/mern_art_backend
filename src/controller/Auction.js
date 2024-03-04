@@ -8,21 +8,20 @@ export const CreateAuction = async (req, res, next) => {
       console.log("time-", time)
 
       let new_auc = new Auction({ name, desc, category, price, image, artist })
-      
+
       new_auc.setExpiration(time)
 
-     let og_auction= await new_auc.save()
+      let og_auction = await new_auc.save()
 
-     await SoldAuction.create({
-     aid:og_auction._id,
-     name:name,
-     desc:desc,
-     category:category,
-     price:price,
-     image:image,
-     artist:artist
-
-   })
+      await SoldAuction.create({
+         aid: og_auction._id,
+         name: name,
+         desc: desc,
+         category: category,
+         price: price,
+         image: image,
+         artist: artist,
+      })
 
       res.status(201).json({ status: true })
    } catch (error) {
@@ -54,7 +53,10 @@ export const GetAllAuction = async (req, res, next) => {
 export const GetAllAuctionSeller = async (req, res, next) => {
    try {
       const { userId } = req.auth
-      const items = await Auction.find({artist:userId}).populate(["category", "artist"])
+      const items = await Auction.find({ artist: userId }).populate([
+         "category",
+         "artist",
+      ])
       let formattedItems = items.map((i) => ({
          _id: i._id.toHexString(),
          name: i.name,
@@ -75,7 +77,10 @@ export const GetAllAuctionSeller = async (req, res, next) => {
 export const GetAllAuctionSellerSold = async (req, res, next) => {
    try {
       const { userId } = req.auth
-      const items = await SoldAuction.find({artist:userId,sold:true}).populate(["category", "artist"])
+      const items = await SoldAuction.find({
+         artist: userId,
+         sold: true,
+      }).populate(["category", "artist"])
       let formattedItems = items.map((i) => ({
          _id: i._id.toHexString(),
          name: i.name,
@@ -92,8 +97,6 @@ export const GetAllAuctionSellerSold = async (req, res, next) => {
       next(error)
    }
 }
-
-
 
 export const PostAuction = async (req, res, next) => {
    try {
@@ -116,7 +119,7 @@ export const GetAuctionbyID = async (req, res, next) => {
          category: item.category.name,
          artist: item.artist.name,
          price: item.price,
-         time:item.expireAt
+         time: item.expireAt,
       }
 
       res.status(200).json(formattedItems)

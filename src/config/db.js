@@ -12,32 +12,41 @@ const ConnectToDB = async () => {
       console.log(`mongodb connected:${con.connection.host}`)
 
       const changestream = mongoose.connection.collection("auctions").watch()
-      const changestream_product = mongoose.connection.collection("products").watch()
+      const changestream_product = mongoose.connection
+         .collection("products")
+         .watch()
 
       changestream.on("change", async (change) => {
          console.log(change)
          if (change.operationType === "delete") {
-            let allbids=await Bid.find({item:change.documentKey._id}).sort({amount:-1})
-          if(allbids.length>0){
-            let winner_id=allbids[0].bidder
-            let winner_amount=allbids[0].amount
-            for(let bid of allbids){
-               // await user.findByIdAndUpdate(bid.bidder,{balance:bid.amount})
-              let update_user= await user.findOne({_id:bid.bidder})
-              update_user.balance=parseInt(update_user.balance)+parseInt(bid.user_amount)
-              await update_user.save()
-            }
-            // console.log()
+            let allbids = await Bid.find({ item: change.documentKey._id }).sort(
+               { amount: -1 },
+            )
+            if (allbids.length > 0) {
+               let winner_id = allbids[0].bidder
+               let winner_amount = allbids[0].amount
+               for (let bid of allbids) {
+                  // await user.findByIdAndUpdate(bid.bidder,{balance:bid.amount})
+                  let update_user = await user.findOne({ _id: bid.bidder })
+                  update_user.balance =
+                     parseInt(update_user.balance) + parseInt(bid.user_amount)
+                  await update_user.save()
+               }
+               // console.log()
 
-            let newuser=await user.findOne({_id:winner_id})
-            newuser.balance=parseInt(newuser.balance)-parseInt(winner_amount)
-            await newuser.save()
-            await SoldAuction.findOneAndUpdate({aid:change.documentKey._id},{
-               sold:true,
-               price:winner_amount,
-               winner:newuser.email
-            })
-          }
+               let newuser = await user.findOne({ _id: winner_id })
+               newuser.balance =
+                  parseInt(newuser.balance) - parseInt(winner_amount)
+               await newuser.save()
+               await SoldAuction.findOneAndUpdate(
+                  { aid: change.documentKey._id },
+                  {
+                     sold: true,
+                     price: winner_amount,
+                     winner: newuser.email,
+                  },
+               )
+            }
 
             notify_que.push({
                id: 1,

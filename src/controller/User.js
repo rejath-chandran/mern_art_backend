@@ -103,21 +103,21 @@ export const GetAllUsersinApp = async (req, res, next) => {
 }
 
 export const GetUserAccountDetails = async (req, res, next) => {
-   try{
+   try {
       const UserId = req.auth.userId
-      let data=await user.findOne({_id:UserId})
+      let data = await user.findOne({ _id: UserId })
       res.status(200).json(data)
-   }catch(error){
+   } catch (error) {
       next(error)
    }
 }
 export const UpdateAccountDetails = async (req, res, next) => {
-   try{
-        const {image,name}=req.body
-        const UserId = req.auth.userId
-        await user.findByIdAndUpdate(UserId,{image,name})
-         res.status(200).json({})
-   }catch(error){
+   try {
+      const { image, name } = req.body
+      const UserId = req.auth.userId
+      await user.findByIdAndUpdate(UserId, { image, name })
+      res.status(200).json({})
+   } catch (error) {
       next(error)
    }
 }

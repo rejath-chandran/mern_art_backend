@@ -5,7 +5,7 @@ import Auction from "../model/auction.js"
 export const CreateBid = async (req, res, next) => {
    try {
       let { amount, item } = req.body
-      console.log('ao',amount,item)
+      console.log("ao", amount, item)
       const userId = req.auth.userId
       let Bidder = await user.findById(userId)
 
@@ -21,7 +21,7 @@ export const CreateBid = async (req, res, next) => {
       Item.save()
 
       await Bid.create({
-         user_amount:amount,
+         user_amount: amount,
          item: item,
          bidder: Bidder._id,
          amount: Item.price,

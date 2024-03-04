@@ -1,7 +1,7 @@
 import mongoose from "mongoose"
 
 const BidSchema = new mongoose.Schema({
-   user_amount:{
+   user_amount: {
       type: Number,
    },
    item: {
