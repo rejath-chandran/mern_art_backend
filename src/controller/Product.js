@@ -33,15 +33,15 @@ export const CreateProduct = async (req, res, next) => {
          artist,
          price,
       })
-      IO.on("connection", (socket) => {
-         socket.emit("notify", [
-            {
-               id: 1,
-               message: "New art is store",
-               date: new Date().toISOString().split("T")[0],
-            },
-         ])
-      })
+      // IO.on("connection", (socket) => {
+      //    socket.emit("notify", [
+      //       {
+      //          id: 1,
+      //          message: "New art is store",
+      //          date: new Date().toISOString().split("T")[0],
+      //       },
+      //    ])
+      // })
       res.status(201).json({ status: true })
    } catch (error) {
       next(error)
@@ -51,8 +51,8 @@ export const CreateProduct = async (req, res, next) => {
 export const ProductByArtistId = async (req, res, next) => {
    try {
       const { id } = req.params
-      if(id==1){
-         id=req.auth
+      if (id == 1) {
+         id = req.auth
       }
       const Products = await Product.find({ artist: id })
       res.status(200).json(Products)
@@ -149,11 +149,11 @@ export const GetProductReview = async (req, res, next) => {
    }
 }
 export const ProductByArtistSeller = async (req, res, next) => {
-   try{
+   try {
       const { userId } = req.auth
-      let data=await Product.find({artist:userId})
+      let data = await Product.find({ artist: userId })
       res.status(200).json(data)
-   }catch(error){
+   } catch (error) {
       next(error)
    }
 }

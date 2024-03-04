@@ -16,6 +16,8 @@ import {
    SetSystem,
    GetSystem,
    GetAllUsersinApp,
+   GetUserAccountDetails,
+   UpdateAccountDetails,
 } from "../controller/User.js"
 import { expressjwt as jwt } from "express-jwt"
 
@@ -36,6 +38,8 @@ import {
    CreateAuction,
    DeleteAuctionByid,
    GetAllAuction,
+   GetAllAuctionSeller,
+   GetAllAuctionSellerSold,
    GetAuctionbyID,
    PostAuction,
 } from "../controller/Auction.js"
@@ -95,7 +99,7 @@ router.get("/product", GetAllProduct)
 router.get("/product/:id", GetProductByID)
 router.get("/product/category/:id", ProductbyCategoryname)
 router.get("/product/artist/:id", ProductByArtistId)
-router.get("/artist_product",TokenMiddleWare,ProductByArtistSeller)  
+router.get("/artist_product", TokenMiddleWare, ProductByArtistSeller)
 
 router.post("/product", TokenMiddleWare, CreateProduct)
 router.put("/product", TokenMiddleWare, UpdateProduct)
@@ -103,6 +107,8 @@ router.delete("/product/:id", TokenMiddleWare, DeleteProduct)
 
 //auction
 router.get("/auction", GetAllAuction)
+router.get("/auction_seller",TokenMiddleWare,GetAllAuctionSeller)
+router.get("/auction_seller_sold",TokenMiddleWare,GetAllAuctionSellerSold)
 router.get("/auction/item/:id", GetAuctionbyID)
 
 router.post("/auction", TokenMiddleWare, CreateAuction)
@@ -133,6 +139,8 @@ router.get("/bid/:id", AllBidbyID)
 
 //account
 router.post("/makerseller", TokenMiddleWare, MakeUserseller)
+router.get("/account_details",TokenMiddleWare,GetUserAccountDetails)
+router.post("/account_details",TokenMiddleWare,UpdateAccountDetails)
 
 //review
 router.post("/review", TokenMiddleWare, MakeProductReview)

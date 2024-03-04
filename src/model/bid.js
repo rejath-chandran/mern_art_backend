@@ -1,6 +1,9 @@
 import mongoose from "mongoose"
 
 const BidSchema = new mongoose.Schema({
+   user_amount:{
+      type: Number,
+   },
    item: {
       type: mongoose.Types.ObjectId,
       ref: "Auction",
