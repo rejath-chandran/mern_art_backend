@@ -3,13 +3,15 @@ import { v4 as uuidv4 } from "uuid"
 import Order from "../model/order.js"
 import User from "../model/user.js"
 import Product from "../model/product.js"
+import user from "../model/user.js"
 const razorpay = new Razorpay({
    key_id: "rzp_test_1Ez7RpNLZ42xoT",
    key_secret: "fLLWfBaL1DcuH9CDkxwEPcIT",
 })
 
 export const Payment = async (req, res, next) => {
-   console.log("order:", req.body)
+   // console.log("order:", req.body)
+   const UserId = req.auth.userId
    const { name, email, phone, adress, cart } = req.body
    const amount = cart.reduce((p, c) => parseInt(c.price) + p, 0)
    const options = {
@@ -28,6 +30,7 @@ export const Payment = async (req, res, next) => {
          phone: phone,
          adress: adress,
          product: i.id,
+         user_id:UserId
       }))
       await Order.insertMany(orders)
       res.json({
@@ -182,6 +185,21 @@ export const SellerOrders = async (req, res, next) => {
 export const ChangeOrderStatus = async (req, res, next) => {
    try {
       const { orderId, status } = req.body
+      const UserId = req.auth.userId
+
+      const user_order=await Order.findOne({order_id:orderId})
+      const user_product=await Product.findOne({_id:user_order.product})
+
+      if(status=="delivered"){
+         let usr=await user.findOne({_id:UserId})
+         usr.balance=parseInt(usr.balance)+parseInt(user_product.price)
+        await usr.save()
+      }
+      else if(status==="rejected"){
+         let usr=await user.findOne({_id:user_order.user_id})
+         usr.balance=parseInt(usr.balance)+parseInt(user_product.price)
+        await usr.save()
+      }
 
       await Order.updateOne({ order_id: orderId }, { status: status })
 

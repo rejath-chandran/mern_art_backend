@@ -168,7 +168,7 @@ export const GetSearchProducts = async (req, res, next) => {
 
             { desc: { $regex: item, $options: "i" } },
          ],
-      }).populate("artist")
+      }).populate('artist')
       res.status(200).json(data)
    } catch (error) {
       next(error)

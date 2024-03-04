@@ -48,11 +48,11 @@ const ConnectToDB = async () => {
                )
             }
 
-            notify_que.push({
-               id: 1,
-               message: `auction deleted ${change.documentKey._id}`,
-               date: moment().format("MMMM Do YYYY, h:mm:ss a"),
-            })
+            // notify_que.push({
+            //    id: 1,
+            //    message: `auction deleted ${change.documentKey._id}`,
+            //    date: moment().format("MMMM Do YYYY, h:mm:ss a"),
+            // })
 
             for (let id of connected_socket) {
                io.to(id).emit("notify", notify_que.reverse())
@@ -60,8 +60,9 @@ const ConnectToDB = async () => {
          }
          if (change.operationType === "insert") {
             notify_que.push({
-               id: 1,
-               message: `auction added ${change.fullDocument.name}`,
+               type:"auction",
+               id: change.fullDocument._id,
+               message: `New Auction added checkout ${change.fullDocument.name}`,
                date: moment().format("MMMM Do YYYY, h:mm:ss a"),
             })
 
@@ -75,6 +76,7 @@ const ConnectToDB = async () => {
          console.log(change)
          if (change.operationType === "insert") {
             notify_que.push({
+               type:"product",
                id: change.fullDocument._id,
                message: `New Art added checkout ${change.fullDocument.name}`,
                date: moment().format("MMMM Do YYYY, h:mm:ss a"),

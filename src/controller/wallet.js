@@ -2,10 +2,19 @@ import wallet from "../model/wallet.js"
 import system from "../model/sytem.js"
 import Product from "../model/product.js"
 import user from "../model/user.js"
+// import user from "../model/user.js"
 export const MakeWalletWithdrawrequest = async (req, res, next) => {
    try {
       const userId = req.auth.userId
       const { amount, upi } = req.body
+
+      let rquser=await user.findOne({_id:userId})
+
+      if(parseInt(amount)>parseInt(rquser.balance)){
+         return res.status(500).json({status:false})
+      }
+
+
       let config = await system.findOne({})
       let real_amount = (parseInt(amount) / 100) * parseInt(config.com)
       let data = {
@@ -56,7 +65,10 @@ export const AdminWalletTable = async (req, res, next) => {
 export const AdminWalletStatus = async (req, res, next) => {
    try {
       const { id } = req.body
-      await wallet.findOneAndUpdate({ _id: id }, { status: "done" })
+      let wllt=await wallet.findOneAndUpdate({ _id: id }, { status: "done" })
+      let u=await user.findOne({_id:wllt.user})
+      u.balance=parseInt(u.balance)-parseInt(wllt.withdraw)
+      await u.save()
       res.status(200).json({ status: true })
    } catch (erro) {
       next(erro)
