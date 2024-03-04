@@ -32,6 +32,7 @@ import {
    UpdateProduct,
    ProductByArtistId,
    ProductByArtistSeller,
+   GetSearchProducts,
 } from "../controller/Product.js"
 
 import {
@@ -100,6 +101,7 @@ router.get("/product/:id", GetProductByID)
 router.get("/product/category/:id", ProductbyCategoryname)
 router.get("/product/artist/:id", ProductByArtistId)
 router.get("/artist_product", TokenMiddleWare, ProductByArtistSeller)
+router.get("/search/:item", GetSearchProducts)
 
 router.post("/product", TokenMiddleWare, CreateProduct)
 router.put("/product", TokenMiddleWare, UpdateProduct)

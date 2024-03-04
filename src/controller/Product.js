@@ -54,7 +54,7 @@ export const ProductByArtistId = async (req, res, next) => {
       // if (id == 1) {
       //    id = req.auth
       // }
-      const Products = await Product.find({ artist: id }).populate('artist')
+      const Products = await Product.find({ artist: id }).populate("artist")
       res.status(200).json(Products)
    } catch (error) {
       next(error)
@@ -151,7 +151,24 @@ export const GetProductReview = async (req, res, next) => {
 export const ProductByArtistSeller = async (req, res, next) => {
    try {
       const { userId } = req.auth
-      let data = await Product.find({ artist: userId }).populate('category')
+      let data = await Product.find({ artist: userId }).populate("category")
+      res.status(200).json(data)
+   } catch (error) {
+      next(error)
+   }
+}
+
+export const GetSearchProducts = async (req, res, next) => {
+   try {
+      const { item } = req.params
+      // let data=await Product.find({ $text: { $search: item} })
+      let data = await Product.find({
+         $or: [
+            { name: { $regex: item, $options: "i" } },
+
+            { desc: { $regex: item, $options: "i" } },
+         ],
+      }).populate("artist")
       res.status(200).json(data)
    } catch (error) {
       next(error)
