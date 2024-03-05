@@ -1,5 +1,5 @@
 import mongoose from "mongoose"
-import { hash, compare,compareSync } from "bcrypt"
+import { hash, compare, compareSync } from "bcrypt"
 
 const UserSchema = new mongoose.Schema({
    name: {
@@ -43,7 +43,7 @@ const UserSchema = new mongoose.Schema({
 })
 
 UserSchema.pre("save", async function (next) {
-   const HashedPasswrd = await hash(this.password,10)
+   const HashedPasswrd = await hash(this.password, 10)
    this.password = HashedPasswrd
    next()
 })

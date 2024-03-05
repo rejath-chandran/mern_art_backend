@@ -30,7 +30,7 @@ export const Payment = async (req, res, next) => {
          phone: phone,
          adress: adress,
          product: i.id,
-         user_id:UserId
+         user_id: UserId,
       }))
       await Order.insertMany(orders)
       res.json({
@@ -187,18 +187,17 @@ export const ChangeOrderStatus = async (req, res, next) => {
       const { orderId, status } = req.body
       const UserId = req.auth.userId
 
-      const user_order=await Order.findOne({order_id:orderId})
-      const user_product=await Product.findOne({_id:user_order.product})
+      const user_order = await Order.findOne({ order_id: orderId })
+      const user_product = await Product.findOne({ _id: user_order.product })
 
-      if(status=="delivered"){
-         let usr=await user.findOne({_id:UserId})
-         usr.balance=parseInt(usr.balance)+parseInt(user_product.price)
-        await usr.save()
-      }
-      else if(status==="rejected"){
-         let usr=await user.findOne({_id:user_order.user_id})
-         usr.balance=parseInt(usr.balance)+parseInt(user_product.price)
-        await usr.save()
+      if (status == "delivered") {
+         let usr = await user.findOne({ _id: UserId })
+         usr.balance = parseInt(usr.balance) + parseInt(user_product.price)
+         await usr.save()
+      } else if (status === "rejected") {
+         let usr = await user.findOne({ _id: user_order.user_id })
+         usr.balance = parseInt(usr.balance) + parseInt(user_product.price)
+         await usr.save()
       }
 
       await Order.updateOne({ order_id: orderId }, { status: status })

@@ -4,7 +4,7 @@ import Jwt from "jsonwebtoken"
 export const UserLogin = async (req, res, next) => {
    try {
       const { email, password, type = "customer" } = req.body
-      console.log("user-login type",type)
+      console.log("user-login type", type)
       let newuser
 
       if (type === "customer") {
@@ -19,7 +19,7 @@ export const UserLogin = async (req, res, next) => {
          throw new Error("no user found")
       }
       const isValid = await newuser.verify(password)
-      console.log("password valid",isValid)
+      console.log("password valid", isValid)
       if (isValid) {
          console.log(process.env.JWT_SECRET)
          const Token = Jwt.sign(

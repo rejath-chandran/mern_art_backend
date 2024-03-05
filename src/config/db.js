@@ -60,7 +60,7 @@ const ConnectToDB = async () => {
          }
          if (change.operationType === "insert") {
             notify_que.push({
-               type:"auction",
+               type: "auction",
                id: change.fullDocument._id,
                message: `New Auction added checkout ${change.fullDocument.name}`,
                date: moment().format("MMMM Do YYYY, h:mm:ss a"),
@@ -76,7 +76,7 @@ const ConnectToDB = async () => {
          console.log(change)
          if (change.operationType === "insert") {
             notify_que.push({
-               type:"product",
+               type: "product",
                id: change.fullDocument._id,
                message: `New Art added checkout ${change.fullDocument.name}`,
                date: moment().format("MMMM Do YYYY, h:mm:ss a"),

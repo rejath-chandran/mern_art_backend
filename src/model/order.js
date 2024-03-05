@@ -16,9 +16,9 @@ const Orderschema = new mongoose.Schema(
          enum: ["placed", "processing", "shipped", "rejected", "delivered"],
          default: "placed",
       },
-      user_id:{
-         type:mongoose.Types.ObjectId,
-         ref:"User"
+      user_id: {
+         type: mongoose.Types.ObjectId,
+         ref: "User",
       },
       product: {
          type: mongoose.Types.ObjectId,
